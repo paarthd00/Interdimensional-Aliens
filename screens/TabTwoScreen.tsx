@@ -66,12 +66,12 @@ const styles = StyleSheet.create({
   characterView: {
     backgroundColor: 'black',
     color: 'white',
-    padding: '10px',
+    padding: 10,
     borderColor: 'green',
   },
   characterText: {
     fontSize: 20,
-    fontFamily: 'Impact',
+    fontFamily: 'sans-serif-condensed',
     color: 'white'
   }
 });
