@@ -21,10 +21,10 @@ export default function TabOneScreen() {
     return planets.map((element, i) => {
       return (
         <View style={styles.planet} key={i}>
-          {i}
-          <Text>{element.name}</Text>
-          <Text>{element.type} </Text>
-          <Text>{element.dimension}</Text>
+          {i+1}
+          <Text style={styles.planetstext}>{element.name}</Text>
+          <Text style={styles.planetstext}>{element.type} </Text>
+          <Text style={styles.planetstext}>{element.dimension}</Text>
 
         </View>
       );
@@ -55,10 +55,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
+  planetstext: {
+    color: 'white'
+  },
   planet: {
     flex: 1,
     borderBottomColor: 'green',
-    marginBottom: 2
+    marginBottom: 2,
+    backgroundColor: 'black',
+    color: 'white',
+    padding: 20
   },
   separator: {
     marginVertical: 30,
