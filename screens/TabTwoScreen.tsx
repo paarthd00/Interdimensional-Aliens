@@ -3,57 +3,75 @@ import { StyleSheet, Image, ScrollView } from 'react-native';
 import axios from 'axios';
 import { Text, View } from '../components/Themed';
 import { useEffect, useState } from 'react'
-import Character from '../components/Character'
 import { SafeAreaView } from 'react-native-safe-area-context';
+
 export default function TabTwoScreen() {
-  const [characters, setCharacters] = useState<any[]>([])
+  const [characters, setCharacters] = useState<any[]>([]);
   const getdata = () => {
     axios.get("https://rickandmortyapi.com/api/character").then(res => {
       setCharacters(res.data.results)
     }).catch(e => console.error(e))
-  }
+  };
+
   useEffect(() => {
     if (characters.length === 0)
       getdata()
-  }, [characters])
+    console.log(characters)
+  }, [characters]);
 
-  const list = () => {
+  const listCharacters = () => {
     return characters.map((element, i) => {
       return (
-        <View key={i}>
+        <View key={i} style={styles.characterView}>
           <Image
             style={{
-              width: 50,
-              height: 50
+              width: 80,
+              height: 80,
+              borderRadius: 50
             }}
             source={{
               uri: element.image
             }}></Image>
-          <Text>{element.name}</Text>
+          <Text style={styles.characterText}>{element.name}</Text>
+          <Text style={styles.characterText}>{element.status} </Text>
+          <Text style={styles.characterText}>{element.location.name}</Text>
+          <Text style={styles.characterText}>{element.species} </Text>
         </View>
-      )
-    })
-  }
+      );
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
         <Text style={styles.text}>Alien Menu Page</Text>
-        {list()}
+        {listCharacters()}
       </ScrollView>
     </SafeAreaView>
 
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  scrollView:{
-    backgroundColor: 'pink',
-    marginHorizontal: 20
+  scrollView: {
+    backgroundColor: '#007dac',
+    marginHorizontal: 20  
   },
-  text:{
+  text: {
     fontSize: 30
+  },
+  characterView: {
+    backgroundColor: 'black',
+    color: 'white',
+    padding: '10px',
+    borderColor: 'green',
+  },
+  characterText: {
+    fontSize: 20,
+    fontFamily: 'Impact',
+    color: 'white'
   }
 });
