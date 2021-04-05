@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView, Button } from 'react-native';
+import { StyleSheet, ScrollView, Button, Image } from 'react-native';
 import { useEffect, useState } from 'react'
 import { Text, View } from '../components/Themed';
 import axios from 'axios';
@@ -20,9 +20,10 @@ export default function TabOneScreen() {
   }, [planets]);
 
   const listResidentsOfPlanet = (residents: any) => {
-    let tempresdata: any[] = [...residentsData];
+    let tempresdata: any[] = []
     residents.forEach((residentstring: string) => {
       axios.get(residentstring).then((res) => {
+        tempresdata = [...residentsData];
         tempresdata.push(res)
         setResidentsData(tempresdata)
       }).catch((e) => console.error(e))
@@ -31,14 +32,40 @@ export default function TabOneScreen() {
   }
 
   const displayResidents = () => {
-    console.log(residentsData)
-    // return .map((el, i) => {
-    //   return (
-    //     <View key={100+i}>
-    //       <Text>{el.data.name}</Text>
-    //     </View>
-    //   )
-    // })
+    return (
+
+      <SafeAreaView style={styles.container}>
+
+        <ScrollView style={styles.scrollView}>
+          <Button onPress={() => { setOpenResidents(!openResidents); setResidentsData([]) }}
+            title="back"
+          />
+          {
+            residentsData.map((el, i) => {
+              return (
+                <View style={styles.characterView}>
+                  <Image
+                    style={{
+                      width: 80,
+                      height: 80,
+                      borderRadius: 50
+                    }}
+                    source={{
+                      uri: el.data.image
+                    }}></Image>
+                  <Text style={styles.planetstext}>{el.data.name}</Text>
+                  <Text style={styles.planetstext}>{el.data.status} </Text>
+                  <Text style={styles.planetstext}>{el.data.location.name}</Text>
+                  <Text style={styles.planetstext}>{el.data.species} </Text>
+                </View>
+              )
+
+            })}
+
+        </ScrollView>
+      </SafeAreaView>
+
+    );
   }
 
   const listPlanets = () => {
@@ -55,7 +82,6 @@ export default function TabOneScreen() {
             color="#841584"
             accessibilityLabel="getresidents"
           />
-
         </View>
       );
     });
@@ -64,11 +90,11 @@ export default function TabOneScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
-
         <Text style={styles.title}>Locations</Text>
-
         {!openResidents && listPlanets()}
-        {openResidents && displayResidents()}
+        {openResidents &&
+          displayResidents()
+        }
       </ScrollView>
     </SafeAreaView>
   );
@@ -102,4 +128,10 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
+  characterView: {
+    backgroundColor: 'black',
+    color: 'white',
+    padding: 10,
+    borderColor: 'green',
+  }
 });
