@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView, Button, Image } from 'react-native';
+import { StyleSheet, ScrollView, Button, Image, FlatList } from 'react-native';
 import { useEffect, useState } from 'react'
 import { Text, View } from '../components/Themed';
 import axios from 'axios';
@@ -20,52 +20,14 @@ export default function TabOneScreen() {
   }, [planets]);
 
   const listResidentsOfPlanet = (residents: any) => {
-    let tempresdata: any[] = []
+    let tempresdata: any[] = [...residentsData]
     residents.forEach((residentstring: string) => {
       axios.get(residentstring).then((res) => {
-        tempresdata = [...residentsData];
-        tempresdata.push(res)
-        setResidentsData(tempresdata)
+        tempresdata.push(res.data)
+        setResidentsData([...tempresdata])
       }).catch((e) => console.error(e))
     })
     setOpenResidents(true)
-  }
-
-  const displayResidents = () => {
-    return (
-
-      <SafeAreaView style={styles.container}>
-
-        <ScrollView style={styles.scrollView}>
-          <Button onPress={() => { setOpenResidents(!openResidents); setResidentsData([]) }}
-            title="back"
-          />
-          {
-            residentsData.map((el, i) => {
-              return (
-                <View style={styles.characterView}>
-                  <Image
-                    style={{
-                      width: 80,
-                      height: 80,
-                      borderRadius: 50
-                    }}
-                    source={{
-                      uri: el.data.image
-                    }}></Image>
-                  <Text style={styles.planetstext}>{el.data.name}</Text>
-                  <Text style={styles.planetstext}>{el.data.status} </Text>
-                  <Text style={styles.planetstext}>{el.data.location.name}</Text>
-                  <Text style={styles.planetstext}>{el.data.species} </Text>
-                </View>
-              )
-
-            })}
-
-        </ScrollView>
-      </SafeAreaView>
-
-    );
   }
 
   const listPlanets = () => {
@@ -87,14 +49,46 @@ export default function TabOneScreen() {
     });
   };
 
+  const renderItem = ({ item }: any) => (
+    <View key={item.id} style={styles.characterView}>
+      <Image
+        style={{
+          width: 80,
+          height: 80,
+          borderRadius: 50
+        }}
+        source={{
+          uri: item.image
+        }}></Image>
+      <Text style={styles.planetstext}>{item.name}</Text>
+      <Text style={styles.planetstext}>{item.status} </Text>
+      <Text style={styles.planetstext}>{item.location.name}</Text>
+      <Text style={styles.planetstext}>{item.species} </Text>
+    </View>
+  );
+  console.log(residentsData)
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
         <Text style={styles.title}>Locations</Text>
         {!openResidents && listPlanets()}
-        {openResidents &&
-          displayResidents()
+        <View>
+          {openResidents &&
+
+            <FlatList
+              data={residentsData}
+              renderItem={renderItem}
+              keyExtractor={item => item.name}
+            />
+          }
+        </View>
+
+        {
+          openResidents && <Button onPress={() => { setOpenResidents(!openResidents); setResidentsData([]) }}
+            title="back"
+          />
         }
+
       </ScrollView>
     </SafeAreaView>
   );
