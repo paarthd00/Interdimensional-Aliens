@@ -1,3 +1,3 @@
-# Interdimensional-Aliens (In development)
+# Interdimensional-Aliens (In-Development)
 
 React Native(Typescript) app integrated Rest API, using the famous Rick and Morty API. Checkout different characters and their planets.  
