@@ -12,11 +12,11 @@ export default function TabOneScreen() {
         <View style={styles.container}>
           <Image
             style={{
-              alignSelf: 'stretch',
-              height: 200,
+              height: 400,
+              width: 400,
             }}
             source={{
-              uri: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b0/Rick_and_Morty_characters.jpg/280px-Rick_and_Morty_characters.jpg'
+              uri: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedirecipes.com%2Fwp-content%2Fuploads%2F2018%2F07%2FAdult-Swim-Announces-Official-Rick-and-Morty-Soundtrack1.jpg&f=1&nofb=1'
             }}></Image>
           <Text  style={styles.title}>The show revolves around the adventures of the members of the Smith household, which consists of parents Jerry and Beth, their children Summer and Morty, and Beth's father, Rick Sanchez, who lives with them as a guest. According to Justin Roiland, the family lives outside of Seattle, Washington.[5] The adventures of Rick and Morty, however, take place across an infinite number of realities, with the characters travelling to other planets and dimensions through portals and Rick's flying car.
 
