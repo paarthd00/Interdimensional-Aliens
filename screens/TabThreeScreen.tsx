@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView, Button, Image, FlatList } from 'react-native';
+import { StyleSheet, ScrollView, Button, Image } from 'react-native';
 import { useEffect, useState } from 'react'
 import { Text, View } from '../components/Themed';
 import axios from 'axios';
@@ -49,7 +49,7 @@ export default function TabOneScreen() {
     });
   };
 
-  const renderItem = ({ item }: any) => (
+  const renderItem = residentsData.map((item) => (
     <View key={item.id} style={styles.characterView}>
       <Image
         style={{
@@ -62,33 +62,22 @@ export default function TabOneScreen() {
         }}></Image>
       <Text style={styles.planetstext}>{item.name}</Text>
       <Text style={styles.planetstext}>{item.status} </Text>
-      <Text style={styles.planetstext}>{item.location.name}</Text>
       <Text style={styles.planetstext}>{item.species} </Text>
     </View>
-  );
-  console.log(residentsData)
+  ));
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView style={styles.scrollView} keyboardShouldPersistTaps="handled">
         <Text style={styles.title}>Locations</Text>
         {!openResidents && listPlanets()}
-        <View>
-          {openResidents &&
-
-            <FlatList
-              data={residentsData}
-              renderItem={renderItem}
-              keyExtractor={item => item.name}
-            />
-          }
-        </View>
-
+        {openResidents &&
+          renderItem
+        }
         {
           openResidents && <Button onPress={() => { setOpenResidents(!openResidents); setResidentsData([]) }}
             title="back"
           />
         }
-
       </ScrollView>
     </SafeAreaView>
   );
@@ -107,7 +96,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   planetstext: {
-    color: 'white'
+    fontSize: 20,
+    fontFamily: 'sans-serif-condensed',
+    color: 'white',
+    alignSelf: 'center',
+
   },
   planet: {
     flex: 1,
@@ -127,5 +120,10 @@ const styles = StyleSheet.create({
     color: 'white',
     padding: 10,
     borderColor: 'green',
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginBottom: 1
   }
 });
