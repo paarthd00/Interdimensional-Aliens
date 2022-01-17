@@ -16,7 +16,6 @@ export default function TabTwoScreen() {
   useEffect(() => {
     if (characters.length === 0)
       getdata()
-    console.log(characters)
   }, [characters]);
 
   const listCharacters = () => {
@@ -48,7 +47,6 @@ export default function TabTwoScreen() {
         {listCharacters()}
       </ScrollView>
     </SafeAreaView>
-
   );
 };
 
